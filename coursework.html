@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Coursework — Ashish Kumar Saini</title>
+<script src="data.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{
+  --cream:#fdf8f0;--warm:#fef3e2;
+  --pink:#ff6b9d;--yellow:#ffd93d;--mint:#6bcb77;
+  --blue:#4d96ff;--orange:#ff9a3c;--purple:#c77dff;
+  --red:#ff595e;--dark:#1a1a2e;--text:#2d2d2d;--muted:#777;--border:#e8ddd0;
+}
+body{background:var(--cream);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.7;overflow-x:hidden;}
+.bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.shape{position:absolute;animation:floatShape ease-in-out infinite;user-select:none;}
+@keyframes floatShape{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-18px) rotate(4deg);}}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;background:rgba(253,248,240,0.95);backdrop-filter:blur(12px);border-bottom:2px solid var(--border);}
+.nav-logo{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,var(--pink),var(--orange),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;}
+.nav-back{color:var(--muted);text-decoration:none;font-size:0.82rem;font-weight:500;transition:color 0.2s;}
+.nav-back:hover{color:var(--pink);}
+
+.page{position:relative;z-index:1;padding-top:6rem;}
+.container{max-width:1100px;margin:0 auto;padding:3rem 2rem 6rem;}
+
+.page-header{margin-bottom:3.5rem;}
+.sec-badge{display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;padding:0.3rem 0.9rem;border-radius:100px;margin-bottom:1rem;font-weight:700;border:2px solid;}
+h1{font-family:'Fraunces',serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:900;color:var(--dark);line-height:1.1;margin-bottom:1rem;}
+.page-sub{color:var(--muted);font-size:1rem;max-width:560px;line-height:1.7;}
+
+/* TISS CONTEXT CARD */
+.context-card{background:white;border:2px solid var(--border);border-radius:16px;padding:2rem 2.5rem;margin-bottom:3rem;border-left:5px solid var(--purple);}
+.context-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple);margin-bottom:0.5rem;}
+.context-text{font-size:0.9rem;color:var(--muted);line-height:1.8;}
+.context-text strong{color:var(--dark);}
+
+/* COURSE CARDS */
+.course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;}
+.course-card{background:white;border:2px solid var(--border);border-radius:16px;padding:2rem;transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;opacity:1;transform:translateY(0);}
+.course-card.animate{opacity:0;transform:translateY(20px);transition:opacity 0.6s,transform 0.6s;}
+.course-card.animate.visible{opacity:1;transform:translateY(0);}
+.course-card:hover{box-shadow:0 10px 30px rgba(0,0,0,0.08);}
+.course-num{font-family:'Fraunces',serif;font-size:5rem;font-weight:900;position:absolute;top:-1rem;right:1rem;opacity:0.05;color:var(--dark);line-height:1;}
+.course-tag{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;margin-bottom:0.8rem;display:inline-block;padding:0.2rem 0.7rem;border-radius:100px;}
+.course-name{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:0.8rem;line-height:1.3;}
+.course-insight{font-size:0.88rem;color:var(--muted);line-height:1.8;}
+.course-insight em{font-style:normal;font-weight:600;}
+
+/* KEY TAKEAWAY highlight */
+.course-takeaway{margin-top:1rem;padding:0.8rem 1rem;border-radius:8px;font-size:0.82rem;font-weight:500;line-height:1.6;border-left:3px solid;}
+
+.coming-soon{background:white;border:2px dashed var(--border);border-radius:16px;padding:2.5rem;text-align:center;margin-top:1.5rem;}
+.coming-soon p{color:var(--muted);font-size:0.88rem;}
+.coming-soon span{font-size:2rem;display:block;margin-bottom:0.8rem;}
+
+.btn-back{background:transparent;color:var(--dark);padding:0.7rem 1.6rem;border-radius:100px;font-weight:600;font-size:0.85rem;text-decoration:none;border:2px solid var(--dark);transition:all 0.2s;display:inline-block;margin-top:3rem;}
+.btn-back:hover{border-color:var(--pink);color:var(--pink);}
+
+footer{text-align:center;padding:2rem;border-top:2px dashed var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:0.68rem;}
+
+@media(max-width:768px){nav{padding:1rem 1.5rem;}.container{padding:2rem 1.5rem 4rem;}}
+</style>
+</head>
+<body>
+<div class="bg-shapes" id="bg-shapes"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo" id="nav-logo"></a>
+  <a href="index.html" class="nav-back">← Back to Portfolio</a>
+</nav>
+
+<div class="page">
+  <div class="container">
+
+    <div class="page-header">
+      <div class="sec-badge" style="background:#f3e8ff;color:#7b22c0;border-color:var(--purple);">Coursework Insights</div>
+      <h1>What TISS<br/><span style="font-style:italic;background:linear-gradient(135deg,var(--purple),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Taught Me</span></h1>
+      <p class="page-sub">These aren't summaries of textbooks. They're the ideas from my first year at TISS that genuinely shifted how I think about organisations, people, and change.</p>
+    </div>
+
+    <div class="context-card">
+      <div class="context-label">Programme Context</div>
+      <div class="context-text">
+        <strong>MA in Organisational Development & Change Leadership (MA-ODCL)</strong> · Tata Institute of Social Sciences, Mumbai · School of Management and Labour Studies · First Year: 2024–2025
+      </div>
+    </div>
+
+    <div class="course-grid" id="course-grid"></div>
+
+    <div class="coming-soon">
+      <span>📚</span>
+      <p>Second year subjects and insights will be added as the programme progresses.</p>
+    </div>
+
+    <a href="index.html" class="btn-back">← Back to Portfolio</a>
+
+  </div>
+</div>
+
+<footer><p id="footer-text"></p></footer>
+
+<script>
+// BG shapes
+(function(){
+  const sh=['🌸','🌺','🌼','🌷','✦','⭐','🍀','❀'];
+  const c=document.getElementById('bg-shapes');
+  for(let i=0;i<18;i++){
+    const el=document.createElement('div');el.className='shape';
+    el.textContent=sh[Math.floor(Math.random()*sh.length)];
+    const size=1+Math.random()*1.8;
+    el.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*120}%;font-size:${size}rem;animation-duration:${6+Math.random()*8}s;animation-delay:${-Math.random()*8}s;opacity:${0.06+Math.random()*0.07};`;
+    c.appendChild(el);
+  }
+})();
+
+const COLS=['#ff6b9d','#4d96ff','#6bcb77','#c77dff','#ff9a3c','#ffd93d'];
+const COLSP=[
+  {bg:'#fff0f5',text:'#e0185a',border:'#ffb3cc'},
+  {bg:'#e8f4ff',text:'#1a5cbf',border:'#88bfff'},
+  {bg:'#f0fff4',text:'#1a7a3a',border:'#88e0a0'},
+  {bg:'#f3e8ff',text:'#7b22c0',border:'#cc99ff'},
+  {bg:'#fff0e8',text:'#c45500',border:'#ffb380'},
+  {bg:'#fff8e0',text:'#b07a00',border:'#ffe066'},
+];
+
+document.getElementById('nav-logo').textContent = PORTFOLIO.name.split(' ').map(w=>w[0]).join('');
+document.getElementById('footer-text').textContent = `© 2026 ${PORTFOLIO.name} · Made with 🌸`;
+
+// Build cards
+const grid=document.getElementById('course-grid');
+PORTFOLIO.coursework.forEach((c,i)=>{
+  const col=COLS[i%COLS.length];
+  const colp=COLSP[i%COLSP.length];
+  const div=document.createElement('div');
+  div.className='course-card';
+  div.style.borderTop=`4px solid ${col}`;
+  div.innerHTML=`
+    <div class="course-num">${String(i+1).padStart(2,'0')}</div>
+    <div class="course-tag" style="background:${colp.bg};color:${colp.text};">Year 1 · MA-ODCL</div>
+    <div class="course-name">${c.subject}</div>
+    <div class="course-insight">${c.insight}</div>
+    <div class="course-takeaway" style="background:${colp.bg};color:${colp.text};border-color:${col};">
+      💡 ${c.insight.split('.')[0]}.
+    </div>`;
+  grid.appendChild(div);
+});
+
+// Scroll animations
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.course-card').forEach(el=>{el.classList.add('animate');io.observe(el);});
+</script>
+</body>
+</html>

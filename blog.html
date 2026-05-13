@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Blog — Ashish Kumar Saini</title>
+<script src="data.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{
+  --cream:#fdf8f0;--warm:#fef3e2;
+  --pink:#ff6b9d;--yellow:#ffd93d;--mint:#6bcb77;
+  --blue:#4d96ff;--orange:#ff9a3c;--purple:#c77dff;
+  --red:#ff595e;--dark:#1a1a2e;--text:#2d2d2d;--muted:#777;--border:#e8ddd0;
+}
+body{background:var(--cream);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.7;overflow-x:hidden;}
+.bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.shape{position:absolute;animation:floatShape ease-in-out infinite;user-select:none;}
+@keyframes floatShape{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-18px) rotate(4deg);}}
+
+/* READING PROGRESS BAR */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--pink),var(--orange),var(--yellow));z-index:200;width:0%;transition:width 0.1s;display:none;}
+
+nav{position:fixed;top:3px;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;background:rgba(253,248,240,0.95);backdrop-filter:blur(12px);border-bottom:2px solid var(--border);}
+.nav-logo{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,var(--pink),var(--orange),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;}
+.nav-back{color:var(--muted);text-decoration:none;font-size:0.82rem;font-weight:500;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s;}
+.nav-back:hover{color:var(--pink);}
+.nav-read-time{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted);display:none;}
+
+.page{position:relative;z-index:1;padding-top:6rem;}
+.container{max-width:720px;margin:0 auto;padding:3rem 2rem 6rem;}
+
+/* ── LISTING VIEW ── */
+.page-header{margin-bottom:3rem;}
+.sec-badge{display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;padding:0.3rem 0.9rem;border-radius:100px;margin-bottom:1rem;font-weight:700;border:2px solid;}
+h1{font-family:'Fraunces',serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:900;color:var(--dark);line-height:1.1;margin-bottom:1rem;}
+.page-sub{color:var(--muted);font-size:1rem;max-width:500px;line-height:1.7;}
+
+.blog-list{display:flex;flex-direction:column;gap:1.5rem;}
+
+.blog-card{background:white;border:2px solid var(--border);border-radius:20px;overflow:hidden;cursor:pointer;transition:all 0.3s;display:block;}
+.blog-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,0.1);}
+
+.blog-card-banner{height:8px;width:100%;}
+.blog-card-body{padding:2rem;}
+.blog-meta{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;}
+.blog-date{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted);}
+.blog-read-time{font-family:'Space Mono',monospace;font-size:0.65rem;padding:0.15rem 0.6rem;border-radius:100px;background:var(--warm);color:var(--muted);}
+.blog-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.blog-tag{font-size:0.65rem;font-weight:600;padding:0.2rem 0.6rem;border-radius:100px;}
+.blog-title{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:var(--dark);margin-bottom:0.7rem;line-height:1.3;}
+.blog-summary{font-size:0.9rem;color:var(--muted);line-height:1.75;}
+.blog-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;padding-top:1.2rem;border-top:1.5px dashed var(--border);}
+.read-more{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.82rem;font-weight:700;}
+.post-count{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted);}
+
+/* ── POST VIEW ── */
+#post-view{display:none;}
+
+.post-hero{border-radius:20px;padding:3rem;margin-bottom:3rem;position:relative;overflow:hidden;}
+.post-hero::before{content:'';position:absolute;top:-50%;right:-10%;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.15);pointer-events:none;}
+.post-hero::after{content:'';position:absolute;bottom:-30%;left:-5%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.1);pointer-events:none;}
+.post-hero-badge{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;opacity:0.8;margin-bottom:1rem;}
+.post-hero-title{font-family:'Fraunces',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.15;margin-bottom:1.5rem;}
+.post-hero-meta{display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;opacity:0.85;font-size:0.82rem;}
+.post-hero-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.post-hero-tag{font-size:0.65rem;font-weight:700;padding:0.2rem 0.7rem;border-radius:100px;background:rgba(255,255,255,0.25);}
+
+/* POST BODY — styled for reading */
+.post-body{font-size:1rem;line-height:1.9;color:#3a3a4a;}
+
+/* Numbered section headings */
+.post-body h3{
+  font-family:'Fraunces',serif;
+  font-size:1.25rem;
+  color:var(--dark);
+  margin:2.5rem 0 0.8rem;
+  display:flex;
+  align-items:baseline;
+  gap:0.8rem;
+}
+.post-body h3 .num{
+  font-family:'Space Mono',monospace;
+  font-size:0.7rem;
+  font-weight:700;
+  padding:0.2rem 0.6rem;
+  border-radius:100px;
+  flex-shrink:0;
+}
+
+.post-body p{margin-bottom:1.2rem;color:#444;}
+
+/* PULL QUOTE */
+.pull-quote{
+  margin:2.5rem 0;
+  padding:1.8rem 2rem 1.8rem 1.5rem;
+  border-left:4px solid var(--pink);
+  background:white;
+  border-radius:0 16px 16px 0;
+  font-family:'Fraunces',serif;
+  font-size:1.15rem;
+  font-style:italic;
+  color:var(--dark);
+  line-height:1.6;
+  box-shadow:0 4px 20px rgba(0,0,0,0.05);
+  position:relative;
+}
+.pull-quote::before{
+  content:'"';
+  position:absolute;
+  top:-0.5rem;
+  left:1rem;
+  font-size:4rem;
+  color:var(--pink);
+  opacity:0.3;
+  font-family:'Fraunces',serif;
+  line-height:1;
+}
+
+/* DIVIDER between sections */
+.section-divider{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin:2rem 0;
+  color:var(--muted);
+  font-size:1rem;
+}
+.section-divider::before,.section-divider::after{
+  content:'';flex:1;height:1.5px;background:var(--border);
+}
+
+/* AUTHOR CARD */
+.author-card{
+  background:white;
+  border:2px solid var(--border);
+  border-radius:20px;
+  padding:2rem;
+  margin-top:3rem;
+  display:flex;
+  gap:1.5rem;
+  align-items:center;
+}
+.author-photo{
+  width:70px;height:70px;border-radius:50%;object-fit:cover;
+  border:3px solid white;
+  box-shadow:0 4px 16px rgba(255,107,157,0.25);
+  flex-shrink:0;
+}
+.author-photo-placeholder{
+  width:70px;height:70px;border-radius:50%;
+  background:linear-gradient(135deg,var(--pink),var(--orange));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;color:white;
+  flex-shrink:0;
+}
+.author-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.3rem;}
+.author-name{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:0.2rem;}
+.author-bio{font-size:0.82rem;color:var(--muted);line-height:1.5;}
+.author-link{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.78rem;font-weight:600;color:var(--pink);text-decoration:none;margin-top:0.5rem;}
+.author-link:hover{text-decoration:underline;}
+
+.post-footer{margin-top:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.btn-back{background:transparent;color:var(--dark);padding:0.7rem 1.6rem;border-radius:100px;font-weight:600;font-size:0.85rem;text-decoration:none;border:2px solid var(--dark);transition:all 0.2s;cursor:pointer;}
+.btn-back:hover{border-color:var(--pink);color:var(--pink);}
+.btn-main{background:var(--dark);color:white;padding:0.7rem 1.6rem;border-radius:100px;font-weight:600;font-size:0.85rem;text-decoration:none;display:inline-block;transition:all 0.2s;border:none;cursor:pointer;}
+.btn-main:hover{background:var(--pink);}
+
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--muted);}
+.empty-icon{font-size:3rem;margin-bottom:1rem;}
+
+footer{text-align:center;padding:2rem;border-top:2px dashed var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:0.68rem;}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .container{padding:2rem 1.5rem 4rem;}
+  .author-card{flex-direction:column;text-align:center;}
+  .post-hero{padding:2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="bg-shapes" id="bg-shapes"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo" id="nav-logo"></a>
+  <span class="nav-read-time" id="nav-read-time"></span>
+  <a href="index.html" class="nav-back">← Portfolio</a>
+</nav>
+
+<div class="page">
+  <div class="container">
+
+    <!-- LISTING -->
+    <div id="list-view">
+      <div class="page-header">
+        <div class="sec-badge" style="background:#fff0f0;color:#c0221a;border-color:var(--red);">Blog</div>
+        <h1>Thoughts &<br/><span style="font-style:italic;background:linear-gradient(135deg,var(--pink),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Writings</span></h1>
+        <p class="page-sub">Honest takes on MBA life, HR, OD, and everything in between.</p>
+      </div>
+      <div class="blog-list" id="blog-list"></div>
+    </div>
+
+    <!-- POST -->
+    <div id="post-view">
+      <div class="post-hero" id="post-hero">
+        <div class="post-hero-badge" id="post-hero-badge"></div>
+        <div class="post-hero-title" id="post-title"></div>
+        <div class="post-hero-meta">
+          <span id="post-date"></span>
+          <span id="post-read-time"></span>
+          <div class="post-hero-tags" id="post-tags"></div>
+        </div>
+      </div>
+      <div class="post-body" id="post-body"></div>
+      <div class="author-card" id="author-card"></div>
+      <div class="post-footer">
+        <button class="btn-back" onclick="showList()">← All Posts</button>
+        <a href="index.html" class="btn-main">Back to Portfolio</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer><p id="footer-text"></p></footer>
+
+<script>
+// BG shapes
+(function(){
+  const sh=['🌸','🌺','🌼','🌷','✦','⭐','🍀','❀'];
+  const c=document.getElementById('bg-shapes');
+  for(let i=0;i<18;i++){
+    const el=document.createElement('div');el.className='shape';
+    el.textContent=sh[Math.floor(Math.random()*sh.length)];
+    const size=1+Math.random()*1.8;
+    el.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*120}%;font-size:${size}rem;animation-duration:${6+Math.random()*8}s;animation-delay:${-Math.random()*8}s;opacity:${0.06+Math.random()*0.07};`;
+    c.appendChild(el);
+  }
+})();
+
+const PAL=[
+  {bg:'#fff0f5',text:'#e0185a',border:'#ffb3cc',hero:'linear-gradient(135deg,#ff6b9d,#ff9a3c)',num:'#fff0f5',numText:'#e0185a'},
+  {bg:'#fff8e0',text:'#b07a00',border:'#ffe066',hero:'linear-gradient(135deg,#ffd93d,#ff9a3c)',num:'#fff8e0',numText:'#b07a00'},
+  {bg:'#f0fff4',text:'#1a7a3a',border:'#88e0a0',hero:'linear-gradient(135deg,#6bcb77,#4d96ff)',num:'#f0fff4',numText:'#1a7a3a'},
+  {bg:'#e8f4ff',text:'#1a5cbf',border:'#88bfff',hero:'linear-gradient(135deg,#4d96ff,#c77dff)',num:'#e8f4ff',numText:'#1a5cbf'},
+  {bg:'#f3e8ff',text:'#7b22c0',border:'#cc99ff',hero:'linear-gradient(135deg,#c77dff,#ff6b9d)',num:'#f3e8ff',numText:'#7b22c0'},
+];
+
+const d = PORTFOLIO;
+document.getElementById('nav-logo').textContent = d.name.split(' ').map(w=>w[0]).join('');
+document.getElementById('footer-text').textContent = `© 2026 ${d.name} · Made with 🌸`;
+
+function readTime(content){
+  const words = content.replace(/<[^>]*>/g,'').split(/\s+/).length;
+  return Math.ceil(words/200)+' min read';
+}
+
+function showList(){
+  document.getElementById('list-view').style.display='block';
+  document.getElementById('post-view').style.display='none';
+  document.getElementById('progress-bar').style.display='none';
+  document.getElementById('nav-read-time').style.display='none';
+  document.title=`Blog — ${d.name}`;
+  window.history.pushState({},'','blog.html');
+  window.scrollTo(0,0);
+}
+
+function showPost(index){
+  const b=PORTFOLIO.blogs[index];
+  if(!b)return;
+  const col=PAL[index%PAL.length];
+  const rt=readTime(b.content);
+
+  // Hero
+  const hero=document.getElementById('post-hero');
+  hero.style.background=col.hero;
+  hero.style.color='white';
+  document.getElementById('post-hero-badge').textContent='✦ Ashish Kumar Saini';
+  document.getElementById('post-title').textContent=b.title;
+  document.getElementById('post-date').textContent=b.date;
+  document.getElementById('post-read-time').textContent='📖 '+rt;
+  document.getElementById('post-tags').innerHTML=(b.tags||[]).map(t=>`<span class="post-hero-tag">${t}</span>`).join('');
+
+  // Body — inject pull quote after point 3, style h3 with coloured numbers
+  let bodyHTML = b.content;
+  // Find all h3 tags and add coloured number badges
+  let h3count=0;
+  bodyHTML = bodyHTML.replace(/<h3[^>]*>([\d]+\.\s*)?(.*?)<\/h3>/g,(match,num,title)=>{
+    h3count++;
+    return `<h3><span class="num" style="background:${col.bg};color:${col.numText};">${String(h3count).padStart(2,'0')}</span>${title}</h3>`;
+  });
+
+  // Add a pull quote after the 3rd paragraph
+  const pullQuote = b.pullQuote || getPullQuote(b.content);
+  if(pullQuote){
+    // Insert after 3rd </p>
+    let pCount=0;
+    bodyHTML=bodyHTML.replace(/<\/p>/g,(m)=>{
+      pCount++;
+      if(pCount===3) return `</p><div class="pull-quote" style="border-color:${col.border};">${pullQuote}</div>`;
+      return m;
+    });
+  }
+
+  document.getElementById('post-body').innerHTML=bodyHTML;
+
+  // Author card
+  const photoSrc = d.photo || '';
+  document.getElementById('author-card').innerHTML=`
+    ${photoSrc
+      ? `<img src="${photoSrc}" class="author-photo" alt="${d.name}"/>`
+      : `<div class="author-photo-placeholder">${d.name[0]}</div>`}
+    <div>
+      <div class="author-label">Written by</div>
+      <div class="author-name">${d.name}</div>
+      <div class="author-bio">${d.tagline}</div>
+      <a href="index.html" class="author-link">View Portfolio →</a>
+    </div>`;
+
+  // Progress bar
+  const bar=document.getElementById('progress-bar');
+  bar.style.display='block';bar.style.width='0%';
+  const rtEl=document.getElementById('nav-read-time');
+  rtEl.style.display='block';rtEl.textContent=rt;
+
+  document.title=`${b.title} — ${d.name}`;
+  document.getElementById('list-view').style.display='none';
+  document.getElementById('post-view').style.display='block';
+  window.history.pushState({},'',`blog.html?post=${index}`);
+  window.scrollTo(0,0);
+}
+
+function getPullQuote(content){
+  // Extract a strong sentence from the content to use as pull quote
+  const text=content.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
+  const sentences=text.match(/[^.!?]+[.!?]+/g)||[];
+  // Find longest sentence between 60-160 chars
+  const good=sentences.filter(s=>s.trim().length>60&&s.trim().length<160);
+  return good.length ? good[Math.floor(good.length/2)].trim() : null;
+}
+
+// Reading progress
+window.addEventListener('scroll',()=>{
+  const post=document.getElementById('post-view');
+  if(post.style.display==='none') return;
+  const scrollTop=window.scrollY;
+  const docHeight=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=docHeight>0?(scrollTop/docHeight*100):0;
+  document.getElementById('progress-bar').style.width=Math.min(pct,100)+'%';
+});
+
+// Build listing
+(function(){
+  const cont=document.getElementById('blog-list');
+  if(!PORTFOLIO.blogs||PORTFOLIO.blogs.length===0){
+    cont.innerHTML=`<div class="empty-state"><div class="empty-icon">✍️</div><p>Blog posts coming soon!</p></div>`;return;
+  }
+  PORTFOLIO.blogs.forEach((b,i)=>{
+    const col=PAL[i%PAL.length];
+    const tags=(b.tags||[]).map(t=>`<span class="blog-tag" style="background:${col.bg};color:${col.text};">${t}</span>`).join('');
+    const rt=readTime(b.content);
+    const card=document.createElement('div');
+    card.className='blog-card';
+    card.innerHTML=`
+      <div class="blog-card-banner" style="background:${col.hero}"></div>
+      <div class="blog-card-body">
+        <div class="blog-meta">
+          <span class="blog-date">${b.date}</span>
+          <span class="blog-read-time">📖 ${rt}</span>
+        </div>
+        <div class="blog-tags" style="margin-bottom:0.8rem;">${tags}</div>
+        <div class="blog-title">${b.title}</div>
+        <div class="blog-summary">${b.summary}</div>
+        <div class="blog-card-footer">
+          <span class="read-more" style="color:${col.text}">Read post →</span>
+          <span class="post-count">Post ${i+1} of ${PORTFOLIO.blogs.length}</span>
+        </div>
+      </div>`;
+    card.onclick=()=>showPost(i);
+    cont.appendChild(card);
+  });
+})();
+
+// Direct URL
+(function(){
+  const params=new URLSearchParams(window.location.search);
+  const post=params.get('post');
+  if(post!==null) showPost(parseInt(post));
+})();
+</script>
+</body>
+</html>
