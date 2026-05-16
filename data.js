@@ -22,9 +22,8 @@ const PORTFOLIO = {
   // ── STATS (shown on hero) ────────────────────────────────
   stats: [
     { number: "4+",   label: "Years Industry Experience" },
-    { number: "330+", label: "Student Records Audited" },
-    { number: "50+",  label: "JDs Designed" },
-    { number: "2M+",  label: "Monthly Readers Reached" },
+    { number: "2", label: "HR Internships" },
+    { number: "1",  label: "OD Consulting Project" },
   ],
 
   // ── CHIPS (shown below your name) ───────────────────────
@@ -36,27 +35,22 @@ const PORTFOLIO = {
     {
       company: "Samsung R&D Institute India",
       role: "HR / OD Intern",
-      type: "Internship · F.I. 2",
-      date: "2026 – Present",
-      tags: ["HR", "OD", "R&D", "Change Leadership"],
+      type: "Summer Internship",
+      date: "April 2026 – June 2026",
+      tags: ["HR", "OD", "R&D"],
       points: [
-        "Currently interning at Samsung R&D Delhi as part of the MA-ODCL Field Immersion 2 programme at TISS Mumbai",
-        "Engaging with HR and organisational development practices within a leading global technology research organisation",
+        "Currently interning at Samsung R&D Delhi as part of my Summer Internship",
+        "Engaging with HR practices within a leading global technology research organisation",
       ]
     },
     {
       company: "Aseema Charitable Trust, Mumbai",
       role: "OD Consultant (Leadership as Service)",
       type: "Academic Engagement · TISS",
-      date: "Jan 2026 – Mar 2026",
+      date: "Feb 2026 – Mar 2026",
       tags: ["OD Consulting", "Process Consultation", "Data Audit", "NGO", "Change Management"],
       points: [
-        "Led a 7-member OD consulting team on a structured engagement with Aseema Charitable Trust — an NGO operating 4 schools across Mumbai serving ~3,800 students from marginalised communities",
-        "Conducted a systematic Entab portal audit across 330 student records at 3 schools, uncovering critical data quality issues — phone mismatch at 23–29%, father's occupation errors at 39–44%, email missing at 20–42%",
-        "Developed the 'Leniency Pattern' — an original diagnostic construct identifying how individually rational behaviours (workload management, leadership empathy) collectively produced a self-reinforcing cycle of data inaccuracy",
-        "Applied Nadler-Tushman Congruence Model, Force Field Analysis, and 5 Whys to design a 3-level intervention framework: Immediate (KYS Form, SOPs), Structural (IT-OPS coordination protocol, verification cycle), and Cultural (welfare-driven narrative, reflective reviews)",
-        "Co-designed the 'Know Your Student (KYS)' form with frontline CWC workers through participatory design — resulting in a tool that incorporated operational knowledge directly into its structure",
-        "Facilitated the first structured IT-Operations coordination discussion in over 2 years, naming and anchoring a structural gap that had persisted informally",
+
         "Delivered a mixed-methods feedback session to senior leadership — presenting school-by-school error rates alongside causal analysis — received with visible recognition and commitment to action",
       ]
     },
@@ -136,19 +130,16 @@ const PORTFOLIO = {
     {
       institution: "University of Petroleum and Energy Studies",
       degree: "B.Tech — Computer Science Engineering",
-      score: "7.89 CGPA",
       year: "2020",
     },
     {
       institution: "St. Mary's Sr. Sec. School (CBSE)",
       degree: "Class XII",
-      score: "89.4%",
       year: "2015",
     },
     {
       institution: "St. Mary's Sr. Sec. School (CBSE)",
       degree: "Class X",
-      score: "10 CGPA",
       year: "2013",
     },
   ],
