@@ -294,16 +294,16 @@ function showPost(index){
     return `<h3><span class="num" style="background:${col.bg};color:${col.numText};">${String(h3count).padStart(2,'0')}</span>${title}</h3>`;
   });
 
-  // Add a pull quote after the 3rd paragraph
-  // const pullQuote = b.pullQuote || getPullQuote(b.content);
-  // if(pullQuote){
-  //   // Insert after 3rd </p>
-  //   let pCount=0;
-  //   bodyHTML=bodyHTML.replace(/<\/p>/g,(m)=>{
-  //     pCount++;
-  //     if(pCount===3) return `</p><div class="pull-quote" style="border-color:${col.border};">${pullQuote}</div>`;
-  //     return m;
-  //   });
+  Add a pull quote after the 3rd paragraph
+  const pullQuote = b.pullQuote || getPullQuote(b.content);
+  if(pullQuote){
+    // Insert after 3rd </p>
+    let pCount=0;
+    bodyHTML=bodyHTML.replace(/<\/p>/g,(m)=>{
+      pCount++;
+      if(pCount===3) return `</p><div class="pull-quote" style="border-color:${col.border};">${pullQuote}</div>`;
+      return m;
+    });
   }
 
   document.getElementById('post-body').innerHTML=bodyHTML;
