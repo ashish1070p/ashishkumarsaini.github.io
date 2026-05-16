@@ -130,16 +130,19 @@ const PORTFOLIO = {
     {
       institution: "University of Petroleum and Energy Studies",
       degree: "B.Tech — Computer Science Engineering",
+      score: "7.89 CGPA",
       year: "2020",
     },
     {
       institution: "St. Mary's Sr. Sec. School (CBSE)",
       degree: "Class XII",
+      score: "89.4%",
       year: "2015",
     },
     {
       institution: "St. Mary's Sr. Sec. School (CBSE)",
       degree: "Class X",
+      score: "10 CGPA",
       year: "2013",
     },
   ],

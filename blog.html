@@ -92,33 +92,6 @@ h1{font-family:'Fraunces',serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:900
 
 .post-body p{margin-bottom:1.2rem;color:#444;}
 
-/* PULL QUOTE */
-.pull-quote{
-  margin:2.5rem 0;
-  padding:1.8rem 2rem 1.8rem 1.5rem;
-  border-left:4px solid var(--pink);
-  background:white;
-  border-radius:0 16px 16px 0;
-  font-family:'Fraunces',serif;
-  font-size:1.15rem;
-  font-style:italic;
-  color:var(--dark);
-  line-height:1.6;
-  box-shadow:0 4px 20px rgba(0,0,0,0.05);
-  position:relative;
-}
-.pull-quote::before{
-  content:'"';
-  position:absolute;
-  top:-0.5rem;
-  left:1rem;
-  font-size:4rem;
-  color:var(--pink);
-  opacity:0.3;
-  font-family:'Fraunces',serif;
-  line-height:1;
-}
-
 /* DIVIDER between sections */
 .section-divider{
   display:flex;
@@ -285,27 +258,13 @@ function showPost(index){
   document.getElementById('post-read-time').textContent='📖 '+rt;
   document.getElementById('post-tags').innerHTML=(b.tags||[]).map(t=>`<span class="post-hero-tag">${t}</span>`).join('');
 
-  // Body — inject pull quote after point 3, style h3 with coloured numbers
+  // Body — style h3 with coloured number badges only
   let bodyHTML = b.content;
-  // Find all h3 tags and add coloured number badges
   let h3count=0;
   bodyHTML = bodyHTML.replace(/<h3[^>]*>([\d]+\.\s*)?(.*?)<\/h3>/g,(match,num,title)=>{
     h3count++;
     return `<h3><span class="num" style="background:${col.bg};color:${col.numText};">${String(h3count).padStart(2,'0')}</span>${title}</h3>`;
   });
-
-  Add a pull quote after the 3rd paragraph
-  const pullQuote = b.pullQuote || getPullQuote(b.content);
-  if(pullQuote){
-    // Insert after 3rd </p>
-    let pCount=0;
-    bodyHTML=bodyHTML.replace(/<\/p>/g,(m)=>{
-      pCount++;
-      if(pCount===3) return `</p><div class="pull-quote" style="border-color:${col.border};">${pullQuote}</div>`;
-      return m;
-    });
-  }
-
   document.getElementById('post-body').innerHTML=bodyHTML;
 
   // Author card
@@ -332,15 +291,6 @@ function showPost(index){
   document.getElementById('post-view').style.display='block';
   window.history.pushState({},'',`blog.html?post=${index}`);
   window.scrollTo(0,0);
-}
-
-function getPullQuote(content){
-  // Extract a strong sentence from the content to use as pull quote
-  const text=content.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
-  const sentences=text.match(/[^.!?]+[.!?]+/g)||[];
-  // Find longest sentence between 60-160 chars
-  const good=sentences.filter(s=>s.trim().length>60&&s.trim().length<160);
-  return good.length ? good[Math.floor(good.length/2)].trim() : null;
 }
 
 // Reading progress
