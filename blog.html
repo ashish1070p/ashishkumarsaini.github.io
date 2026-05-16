@@ -295,15 +295,15 @@ function showPost(index){
   });
 
   // Add a pull quote after the 3rd paragraph
-  const pullQuote = b.pullQuote || getPullQuote(b.content);
-  if(pullQuote){
-    // Insert after 3rd </p>
-    let pCount=0;
-    bodyHTML=bodyHTML.replace(/<\/p>/g,(m)=>{
-      pCount++;
-      if(pCount===3) return `</p><div class="pull-quote" style="border-color:${col.border};">${pullQuote}</div>`;
-      return m;
-    });
+  // const pullQuote = b.pullQuote || getPullQuote(b.content);
+  // if(pullQuote){
+  //   // Insert after 3rd </p>
+  //   let pCount=0;
+  //   bodyHTML=bodyHTML.replace(/<\/p>/g,(m)=>{
+  //     pCount++;
+  //     if(pCount===3) return `</p><div class="pull-quote" style="border-color:${col.border};">${pullQuote}</div>`;
+  //     return m;
+  //   });
   }
 
   document.getElementById('post-body').innerHTML=bodyHTML;
