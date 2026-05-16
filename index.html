@@ -524,20 +524,25 @@ const DOTCOLS=['#ff6b9d','#4d96ff','#6bcb77','#c77dff','#ff9a3c'];
 
 // POR
 (function(){
-  const p=PORTFOLIO.por;
-  const pts=p.points.map(pt=>`<li style="font-size:0.86rem;color:var(--muted);padding:0.3rem 0 0.3rem 1.4rem;position:relative;line-height:1.7;list-style:none;"><span style="position:absolute;left:0;color:#ffd93d;font-size:0.7rem;top:0.5rem;">✦</span>${pt}</li>`).join('');
-  const sec=document.getElementById('por-section');
-  sec.innerHTML=`
-    <div class="exp-card" style="border-left:5px solid #ffd93d;opacity:1;transform:none;">
-      <div class="exp-header">
-        <div>
-          <div class="exp-role" style="color:#b07a00">${p.role} · <span style="color:#aaa;font-weight:400">${p.org}</span></div>
-          <div class="exp-company">Position of Responsibility</div>
+  try {
+    const p=PORTFOLIO.por;
+    if(!p||!p.role) return;
+    const pts=p.points.map(pt=>`<li style="font-size:0.86rem;color:var(--muted);padding:0.3rem 0 0.3rem 1.4rem;position:relative;line-height:1.7;list-style:none;"><span style="position:absolute;left:0;color:#ffd93d;font-size:0.7rem;top:0.5rem;">✦</span>${pt}</li>`).join('');
+    const sec=document.getElementById('por-section');
+    if(!sec) return;
+    sec.style.display='block';
+    sec.innerHTML=`
+      <div class="exp-card" style="border-left:5px solid #ffd93d;opacity:1;transform:none;display:block;visibility:visible;">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role" style="color:#b07a00">${p.role} · <span style="color:#aaa;font-weight:400">${p.org}</span></div>
+            <div class="exp-company">Position of Responsibility</div>
+          </div>
+          <span class="exp-date" style="background:#fff8e0;border-color:#ffd93d;color:#b07a00;">${p.year}</span>
         </div>
-        <span class="exp-date" style="background:#fff8e0;border-color:#ffd93d;color:#b07a00;">${p.year}</span>
-      </div>
-      <ul style="list-style:none;margin-top:0.8rem;">${pts}</ul>
-    </div>`;
+        <ul style="list-style:none;margin-top:0.8rem;">${pts}</ul>
+      </div>`;
+  } catch(e){ console.error('POR error:', e); }
 })();
 
 // EXTRAS
