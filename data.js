@@ -34,7 +34,7 @@ const PORTFOLIO = {
   experience: [
     {
       company: "Samsung R&D Institute India",
-      role: "HR / OD Intern",
+      role: "HR",
       type: "Summer Internship",
       date: "April 2026 – June 2026",
       tags: ["HR", "OD", "R&D"],
